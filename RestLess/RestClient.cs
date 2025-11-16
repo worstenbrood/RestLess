@@ -1,13 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using RestLess.Authentication;
 using RestLess.DataAdapters;
-using System.IO;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace RestLess
 {
@@ -98,9 +99,9 @@ namespace RestLess
             DataAdapter = dataAdapter ?? new JsonAdapter();
         }
 
-        protected virtual string HandleResponse(HttpResponseMessage response)
+        protected virtual async Task<string> HandleResponse(HttpResponseMessage response)
         {
-            string body = response.Content.ReadAsStringAsync().SyncResult();
+            string body = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"HTTP Status {response.StatusCode}: {body}");
@@ -125,20 +126,25 @@ namespace RestLess
             }
         }
 
-        protected TRes Send<TRes>(string url, HttpMethod method)
+        protected async Task<TRes> SendAsync<TRes>(string url, HttpMethod method)
         {
             using (var message = new AuthenticationRequestMessage(method, url, Authentication))
             {
                 message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
 
-                using (var result = Client.SendAsync(message).SyncResult())
+                using (var result = await Client.SendAsync(message))
                 {
-                    return DataAdapter.Deserialize<TRes>(HandleResponse(result));
+                    return DataAdapter.Deserialize<TRes>(await HandleResponse(result));
                 }
             }
         }
 
-        protected void Send<TReq>(string url, HttpMethod method, TReq data)
+        protected TRes Send<TRes>(string url, HttpMethod method)
+        {
+            return SendAsync<TRes>(url, method).SyncResult();
+        }
+
+        protected async Task SendAsync<TReq>(string url, HttpMethod method, TReq data)
         {
             using (var message = new AuthenticationRequestMessage(method, url, Authentication))
             {
@@ -146,9 +152,32 @@ namespace RestLess
                 {
                     message.Content = content;
 
-                    using (HttpResponseMessage result = Client.SendAsync(message).SyncResult())
+                    using (HttpResponseMessage result = await Client.SendAsync(message))
                     {
-                        HandleResponse(result);
+                        await HandleResponse(result);
+                    }
+                }
+            }
+        }
+
+        protected void Send<TReq>(string url, HttpMethod method, TReq data)
+        {
+            SendAsync(url, method, data).SyncResult();
+        }
+
+        protected async Task<TRes> SendAsync<TReq, TRes>(string url, HttpMethod method, TReq data)
+        {
+            using (var message = new AuthenticationRequestMessage(method, url, Authentication))
+            {
+                message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
+
+                using (var content = new RestContent<TReq>(data, DataAdapter))
+                {
+                    message.Content = content;
+
+                    using (HttpResponseMessage result = await Client.SendAsync(message))
+                    {
+                        return DataAdapter.Deserialize<TRes>(await HandleResponse(result));
                     }
                 }
             }
@@ -156,20 +185,7 @@ namespace RestLess
 
         protected TRes Send<TReq, TRes>(string url, HttpMethod method, TReq data)
         {
-            using (var message = new AuthenticationRequestMessage(method, url, Authentication))
-            {
-                message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
-
-                using (var content = new RestContent<TReq>(data, DataAdapter))
-                {
-                    message.Content = content;
-
-                    using (HttpResponseMessage result = Client.SendAsync(message).SyncResult())
-                    {
-                        return DataAdapter.Deserialize<TRes>(HandleResponse(result));
-                    }
-                }
-            }
+            return SendAsync<TReq, TRes>(url, method, data).SyncResult();
         }
 
         /// <summary>
@@ -179,9 +195,14 @@ namespace RestLess
         /// <param name="url">Url</param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
+        public async Task<TRes> GetAsync<TRes>(string url)
+        {
+            return await SendAsync<TRes>(url, HttpMethod.Get);
+        }
+
         public TRes Get<TRes>(string url)
         {
-            return Send<TRes>(url, HttpMethod.Get);
+            return GetAsync<TRes>(url).SyncResult();
         }
 
         /// <summary>
@@ -191,9 +212,14 @@ namespace RestLess
         /// <param name="url">Url</param>
         /// <param name="data">Body object</param>
         /// <exception cref="HttpRequestException"></exception>
+        public async Task PostAsync<TReq>(string url, TReq data)
+        {
+            await SendAsync(url, HttpMethod.Post, data);
+        }
+
         public void Post<TReq>(string url, TReq data)
         {
-            Send(url, HttpMethod.Post, data);
+            PostAsync(url, data).SyncResult();
         }
 
         /// <summary>
@@ -205,9 +231,14 @@ namespace RestLess
         /// <param name="data">Body object</param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
+        public async Task<TRes> PostAsync<TReq, TRes>(string url, TReq data)
+        {
+            return await SendAsync<TReq, TRes>(url, HttpMethod.Post, data);
+        }
+
         public TRes Post<TReq, TRes>(string url, TReq data)
         {
-            return Send<TReq, TRes>(url, HttpMethod.Post, data);
+            return PostAsync<TReq, TRes>(url, data).SyncResult();
         }
 
         /// <summary>
@@ -217,7 +248,7 @@ namespace RestLess
         /// <param name="url"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public TRes Post<TRes>(string url, IEnumerable<KeyValuePair<string, string>> parameters)
+        public async Task<TRes> PostAsync<TRes>(string url, IEnumerable<KeyValuePair<string, string>> parameters)
         {
             using (var message = new AuthenticationRequestMessage(HttpMethod.Post, url, Authentication))
             {
@@ -227,12 +258,17 @@ namespace RestLess
                 {
                     message.Content = content;
 
-                    using (HttpResponseMessage result = Client.SendAsync(message).SyncResult())
+                    using (HttpResponseMessage result = await Client.SendAsync(message))
                     {
-                        return DataAdapter.Deserialize<TRes>(HandleResponse(result));
+                        return DataAdapter.Deserialize<TRes>(await HandleResponse(result));
                     }
                 }
             }
+        }
+
+        public TRes Post<TRes>(string url, IEnumerable<KeyValuePair<string, string>> parameters)
+        {
+            return PostAsync<TRes>(url, parameters).SyncResult();
         }
 
         /// <summary>
@@ -242,7 +278,7 @@ namespace RestLess
         /// <param name="path">Full path to file</param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
-        public void PostFile(string url, string path)
+        public async Task PostFileAsync(string url, string path)
         {
             using (var message = new AuthenticationRequestMessage(HttpMethod.Post, url, Authentication))
             {
@@ -255,14 +291,19 @@ namespace RestLess
                             multipart.Add(content);
                             message.Content = multipart;
 
-                            using (HttpResponseMessage result = Client.SendAsync(message).SyncResult())
+                            using (HttpResponseMessage result = await Client.SendAsync(message))
                             {
-                                HandleResponse(result);
+                                await HandleResponse(result);
                             }
                         }
                     }
                 }
             }
+        }
+
+        public async void PostFile(string url, string path)
+        {
+            PostFileAsync(url, path).SyncResult();
         }
 
         /// <summary>
@@ -273,7 +314,7 @@ namespace RestLess
         /// <param name="path">Full path to file</param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
-        public TRes PostFile<TRes>(string url, string path)
+        public async Task<TRes> PostFileAsync<TRes>(string url, string path)
         {
             using (var message = new AuthenticationRequestMessage(HttpMethod.Post, url, Authentication))
             {
@@ -288,9 +329,9 @@ namespace RestLess
                             multipart.Add(content);
                             message.Content = multipart;
 
-                            using (HttpResponseMessage result = Client.SendAsync(message).SyncResult())
+                            using (HttpResponseMessage result = await Client.SendAsync(message))
                             {
-                               return DataAdapter.Deserialize<TRes>(HandleResponse(result)); 
+                               return DataAdapter.Deserialize<TRes>(await HandleResponse(result)); 
                             }
                         }
                     }
@@ -304,7 +345,7 @@ namespace RestLess
         /// <param name="url">Url</param>
         /// <param name="Stream">Stream to copy to</param>
         /// <param name="mediaType"></param>
-        public HttpResponseMessage GetFile(string url, string mediaType)
+        public async Task<HttpResponseMessage> GetFileAsync(string url, string mediaType)
         {
             using (var message = new AuthenticationRequestMessage(HttpMethod.Get, url, Authentication))
             {
@@ -313,8 +354,13 @@ namespace RestLess
                     message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
                 }
 
-                return Client.SendAsync(message).SyncResult();
+                return await Client.SendAsync(message);
             }
+        }
+
+        public HttpResponseMessage GetFile(string url, string mediaType)
+        {
+            return GetFileAsync(url, mediaType).SyncResult();
         }
 
         /// <summary>
@@ -323,15 +369,20 @@ namespace RestLess
         /// <param name="url">Url</param>
         /// <param name="Stream">Stream to copy to</param>
         /// <param name="mediaType"></param>
-        public void GetFile(string url, Stream output, string mediaType)
+        public async Task GetFileAsync(string url, Stream output, string mediaType)
         {
             using (var response = GetFile(url, mediaType))
             {
                 using (var stream = response.Content)
                 {
-                    stream.CopyToAsync(output).SyncResult();
+                    await stream.CopyToAsync(output);
                 }
             }
+        }
+
+        public void GetFile(string url, Stream output, string mediaType)
+        {
+            GetFileAsync(url, output, mediaType).SyncResult();
         }
 
         /// <summary>
@@ -340,12 +391,17 @@ namespace RestLess
         /// <param name="url">Url</param>
         /// <param name="path">Path to local file</param>
         /// <param name="mediaType"></param>
-        public void GetFile(string url, string path, string mediaType)
+        public async Task GetFileAsync(string url, string path, string mediaType)
         {
             using (var stream = File.OpenWrite(path))
             {
-                GetFile(url, stream, mediaType);
+                await GetFileAsync(url, stream, mediaType);
             }
+        }
+
+        public void GetFile(string url, string path, string mediaType)
+        {
+            GetFileAsync(url, path, mediaType).SyncResult();
         }
 
         /// <summary>
@@ -354,24 +410,34 @@ namespace RestLess
         /// <typeparam name="TReq">Type of object that will be serialized to the body of the request</typeparam>
         /// <param name="url">Url</param>
         /// <param name="data">Body object</param>
+        public async Task PatchAsync<TReq>(string url, TReq data)
+        {
+            await SendAsync(url, new HttpMethod("PATCH"), data);
+        }
+
         public void Patch<TReq>(string url, TReq data)
         {
-            Send(url, new HttpMethod("PATCH"), data);
+            PatchAsync(url, data).SyncResult();
         }
 
         /// <summary>
         /// Send a delete
         /// </summary>
         /// <param name="url">Url</param>
-        public void Delete(string url)
+        public async Task DeleteAsync(string url)
         {
             using (var message = new AuthenticationRequestMessage(HttpMethod.Delete, url, Authentication))
             {
-                using (HttpResponseMessage result = Client.SendAsync(message).SyncResult())
+                using (HttpResponseMessage result = await Client.SendAsync(message))
                 {
-                    HandleResponse(result);
+                    await HandleResponse(result);
                 }
             }
+        }
+
+        public void Delete(string url)
+        {
+            DeleteAsync(url).SyncResult();
         }
 
         public void Dispose()
@@ -381,69 +447,4 @@ namespace RestLess
             GC.SuppressFinalize(this);
         }
     }  
-
-    public static class TaskExtensions
-    {
-        public static void SyncResult(this Task t)
-        {
-            try
-            {
-               t.ConfigureAwait(false).GetAwaiter().GetResult();
-            }
-            catch (TaskCanceledException ex)
-            {
-                if (ex.InnerException != null)
-                {
-                    throw ex.InnerException;
-                }
-
-                if (ex.CancellationToken.IsCancellationRequested)
-                {
-                    throw new TimeoutException("A timeout occurred.", ex);
-                }
-
-                throw;
-            }
-        }
-
-        public static T SyncResult<T>(this Task<T> t)
-        {
-            try
-            {
-                return t.ConfigureAwait(false).GetAwaiter().GetResult();
-            }
-            catch (TaskCanceledException ex)
-            {
-                if (ex.InnerException != null)
-                {
-                    throw ex.InnerException;
-                }
-
-                if (ex.CancellationToken.IsCancellationRequested)
-                {
-                    throw new TimeoutException("A timeout occurred.", ex);
-                }
-
-                throw;
-            }
-        }
-    }
-
-    public static class HttpRequestMessageExtensions
-    {
-        public static void SetToken(this HttpRequestMessage r, string token)
-        {
-            r.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        public static void SetHeader(this HttpRequestMessage r, string name, string value)
-        {
-            r.Headers.Add(name, value);
-        }
-
-        public static void SetBasic(this HttpRequestMessage r, string user, string pass)
-        {
-            r.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user}:{pass}")));
-        }
-    }
 }

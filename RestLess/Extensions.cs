@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RestLess
 {
-     public static class Extensions
+    public static class Extensions
     {
+        #region Expression
+
         /// <summary>
         /// Get member name of expression <paramref name="p"/>
         /// </summary>
@@ -43,6 +49,9 @@ namespace RestLess
             return string.Join(separator, p.Select(t => t.GetMemberName()));
         }
 
+        #endregion
+        #region Enum
+
         /// <summary>
         /// Convert an enmu value to its string value and lower case
         /// </summary>
@@ -54,5 +63,99 @@ namespace RestLess
         {
             return e.ToString("f").ToLower();
         }
+
+        #endregion
+        #region Task
+
+        /// <summary>
+        /// Get sync result from async method
+        /// </summary>
+        /// <param name="t"></param>
+        /// <exception cref="TimeoutException"></exception>
+        public static void SyncResult(this Task t)
+        {
+            try
+            {
+                t.ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+            catch (TaskCanceledException ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    throw ex.InnerException;
+                }
+
+                if (ex.CancellationToken.IsCancellationRequested)
+                {
+                    throw new TimeoutException("A timeout occurred.", ex);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get sync result from async method
+        /// </summary>
+        /// <param name="t"></param>
+        /// <exception cref="TimeoutException"></exception>
+        public static T SyncResult<T>(this Task<T> t)
+        {
+            try
+            {
+                return t.ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+            catch (TaskCanceledException ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    throw ex.InnerException;
+                }
+
+                if (ex.CancellationToken.IsCancellationRequested)
+                {
+                    throw new TimeoutException("A timeout occurred.", ex);
+                }
+
+                throw;
+            }
+        }
+
+        #endregion
+        #region HttpRequestMessage
+
+        /// <summary>
+        /// Set token header
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="token"></param>
+        public static void SetToken(this HttpRequestMessage r, string token)
+        {
+            r.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+
+        /// <summary>
+        /// Set custom header
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void SetHeader(this HttpRequestMessage r, string name, string value)
+        {
+            r.Headers.Add(name, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="user"></param>
+        /// <param name="pass"></param>
+        public static void SetBasic(this HttpRequestMessage r, string user, string pass)
+        {
+            r.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user}:{pass}")));
+        }
+
+        #endregion
     }
 }

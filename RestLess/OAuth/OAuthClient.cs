@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using RestLess.Authentication;
 using RestLess.OAuth.Models;
 
@@ -23,9 +24,9 @@ namespace RestLess.OAuth
         {
         }
 
-        protected override string HandleResponse(HttpResponseMessage response)
+        protected override async Task<string> HandleResponse(HttpResponseMessage response)
         {
-            string body = response.Content.ReadAsStringAsync().SyncResult();
+            string body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
                 return body;
