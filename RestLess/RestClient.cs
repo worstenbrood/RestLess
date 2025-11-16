@@ -424,7 +424,7 @@ namespace RestLess
         }
 
         /// <summary>
-        /// PorstFile sync
+        /// PostFile sync
         /// </summary>
         /// <typeparam name="TRes"></typeparam>
         /// <param name="url"></param>

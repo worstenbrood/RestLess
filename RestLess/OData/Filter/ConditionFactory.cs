@@ -23,7 +23,6 @@ namespace RestLess.OData.Filter
         public ConditionFactory(Expression<Func<TClass, TProperty>> property = null)
         {
             Property = property;
-
         }
 
         /// <summary>
