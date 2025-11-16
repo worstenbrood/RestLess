@@ -77,7 +77,7 @@ namespace RestLesser
         /// </summary>
         /// <param name="t"></param>
         /// <exception cref="TimeoutException"></exception>
-        public static void SyncResult(this Task t)
+        public static void Sync(this Task t)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace RestLesser
         /// </summary>
         /// <param name="t"></param>
         /// <exception cref="TimeoutException"></exception>
-        public static T SyncResult<T>(this Task<T> t)
+        public static T Sync<T>(this Task<T> t)
         {
             try
             {
@@ -132,52 +132,51 @@ namespace RestLesser
         /// <summary>
         /// Set token header
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="request"></param>
         /// <param name="token"></param>
-        public static void SetToken(this HttpRequestMessage r, string token)
+        public static void SetToken(this HttpRequestMessage request, string token)
         {
-            r.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         /// <summary>
         /// Set custom header
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="request"></param>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public static void SetHeader(this HttpRequestMessage r, string name, string value)
+        public static void SetHeader(this HttpRequestMessage request, string name, string value)
         {
-            r.Headers.Add(name, value);
+            request.Headers.Add(name, value);
         }
 
         /// <summary>
         /// Set basic authentication header
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="request"></param>
         /// <param name="user"></param>
         /// <param name="pass"></param>
-        public static void SetBasic(this HttpRequestMessage r, string user, string pass)
+        public static void SetBasic(this HttpRequestMessage request, string user, string pass)
         {
-            r.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user}:{pass}")));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", 
+                Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user}:{pass}")));
         }
 
         /// <summary>
         /// Set url query parameters
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="request"></param>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public static void SetUrlAuthentication(this HttpRequestMessage r, string name, string value)
+        public static void SetUrlAuthentication(this HttpRequestMessage request, string name, string value)
         {
-            NameValueCollection httpValueCollection = HttpUtility.ParseQueryString(r.RequestUri.Query);
+            // Add query parameter
+            NameValueCollection httpValueCollection = HttpUtility.ParseQueryString(request.RequestUri.Query);
             httpValueCollection[name] = value;
 
-            UriBuilder ub = new(r.RequestUri)
-            {
-                Query = httpValueCollection.ToString()
-            };
-
-            r.RequestUri = ub.Uri;
+            // Construct new uri
+            UriBuilder ub = new(request.RequestUri) { Query = httpValueCollection.ToString() };
+            request.RequestUri = ub.Uri;
         }
 
         #endregion

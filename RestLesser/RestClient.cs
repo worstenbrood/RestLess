@@ -160,7 +160,7 @@ namespace RestLesser
         /// <returns></returns>
         protected TRes Send<TRes>(string url, HttpMethod method)
         {
-            return SendAsync<TRes>(url, method).SyncResult();
+            return SendAsync<TRes>(url, method).Sync();
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace RestLesser
         /// <param name="data"></param>
         protected void Send<TReq>(string url, HttpMethod method, TReq data)
         {
-            SendAsync(url, method, data).SyncResult();
+            SendAsync(url, method, data).Sync();
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace RestLesser
         /// <returns></returns>
         protected TRes Send<TReq, TRes>(string url, HttpMethod method, TReq data)
         {
-            return SendAsync<TReq, TRes>(url, method, data).SyncResult();
+            return SendAsync<TReq, TRes>(url, method, data).Sync();
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace RestLesser
         /// <returns></returns>
         public TRes Get<TRes>(string url)
         {
-            return GetAsync<TRes>(url).SyncResult();
+            return GetAsync<TRes>(url).Sync();
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace RestLesser
         /// <param name="data"></param>
         public void Post<TReq>(string url, TReq data)
         {
-            PostAsync(url, data).SyncResult();
+            PostAsync(url, data).Sync();
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace RestLesser
         /// <returns></returns>
         public TRes Post<TReq, TRes>(string url, TReq data)
         {
-            return PostAsync<TReq, TRes>(url, data).SyncResult();
+            return PostAsync<TReq, TRes>(url, data).Sync();
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace RestLesser
         /// <returns></returns>
         public TRes Post<TRes>(string url, IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            return PostAsync<TRes>(url, parameters).SyncResult();
+            return PostAsync<TRes>(url, parameters).Sync();
         }
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace RestLesser
         /// <returns></returns>
         public void PostFile(string url, Stream input)
         {
-            PostFileAsync(url, input).SyncResult();
+            PostFileAsync(url, input).Sync();
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace RestLesser
         /// <param name="path"></param>
         public void PostFile(string url, string path)
         {
-            PostFileAsync(url, path).SyncResult();
+            PostFileAsync(url, path).Sync();
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace RestLesser
         /// <returns></returns>
         public TRes PostFile<TRes>(string url, string path)
         {
-            return PostFileAsync<TRes>(url, path).SyncResult();
+            return PostFileAsync<TRes>(url, path).Sync();
         }
 
         /// <summary>
@@ -494,7 +494,7 @@ namespace RestLesser
         /// <returns></returns>
         public HttpResponseMessage GetFile(string url, string mediaType)
         {
-            return GetFileAsync(url, mediaType).SyncResult();
+            return GetFileAsync(url, mediaType).Sync();
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace RestLesser
         /// <param name="mediaType"></param>
         public void GetFile(string url, Stream output, string mediaType)
         {
-            GetFileAsync(url, output, mediaType).SyncResult();
+            GetFileAsync(url, output, mediaType).Sync();
         }
 
         /// <summary>
@@ -547,7 +547,7 @@ namespace RestLesser
         /// <param name="mediaType"></param>
         public void GetFile(string url, string path, string mediaType)
         {
-            GetFileAsync(url, path, mediaType).SyncResult();
+            GetFileAsync(url, path, mediaType).Sync();
         }
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace RestLesser
         /// <param name="data"></param>
         public void Patch<TReq>(string url, TReq data)
         {
-            PatchAsync(url, data).SyncResult();
+            PatchAsync(url, data).Sync();
         }
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace RestLesser
         /// <param name="url"></param>
         public void Delete(string url)
         {
-            DeleteAsync(url).SyncResult();
+            DeleteAsync(url).Sync();
         }
 
         /// <summary>
