@@ -22,36 +22,28 @@ namespace RestLesser
         /// Get member name of expression <paramref name="p"/>
         /// </summary>
         /// <typeparam name="TDelegate"></typeparam>
-        /// <param name="p"></param>
+        /// <param name="expression"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static string GetMemberName<TDelegate>(this Expression<TDelegate> p)
-            where TDelegate : class, Delegate
-        {
-            switch (p.Body)
+        public static string GetMemberName<TDelegate>(this Expression<TDelegate> expression)
+            where TDelegate : class, Delegate => expression.Body switch
             {
-                case MemberExpression expression:
-                    return ((PropertyInfo)expression.Member).Name;
-
-                case UnaryExpression expression:
-                    return ((PropertyInfo)((MemberExpression)expression.Operand).Member).Name;
-
-                default:
-                    throw new Exception("Unhandled expression cast.");
-            }
-        }
-
+                MemberExpression m => ((PropertyInfo)m.Member).Name,
+                UnaryExpression u => ((PropertyInfo)((MemberExpression)u.Operand).Member).Name,
+                _ => throw new Exception("Unhandled expression cast."),
+            };
+        
         /// <summary>
         /// Join expressions
         /// </summary>
         /// <typeparam name="TDelegate"></typeparam>
-        /// <param name="p"></param>
+        /// <param name="expressions"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string JoinMembers<TDelegate>(this Expression<TDelegate>[] p, string separator = Constants.Query.ParameterSeparator)
+        public static string JoinMembers<TDelegate>(this Expression<TDelegate>[] expressions, string separator = Constants.Query.ParameterSeparator)
             where TDelegate : class, Delegate
         {
-            return string.Join(separator, p.Select(t => t.GetMemberName()));
+            return string.Join(separator, expressions.Select(t => t.GetMemberName()));
         }
 
         #endregion
