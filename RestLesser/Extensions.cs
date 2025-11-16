@@ -48,7 +48,7 @@ namespace RestLesser
         /// <param name="p"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string JoinMembers<TDelegate>(this Expression<TDelegate>[] p, string separator = ",")
+        public static string JoinMembers<TDelegate>(this Expression<TDelegate>[] p, string separator = Constants.Query.ParameterSeparator)
             where TDelegate : class, Delegate
         {
             return string.Join(separator, p.Select(t => t.GetMemberName()));
