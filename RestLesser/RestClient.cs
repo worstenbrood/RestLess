@@ -134,6 +134,36 @@ namespace RestLesser
         /// <summary>
         /// Send async
         /// </summary>
+        /// <param name="url"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        protected async Task SendAsync(string url, HttpMethod method)
+        {
+            using (var message = new AuthenticationRequestMessage(method, url, Authentication))
+            {
+                message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
+
+                using (var result = await Client.SendAsync(message))
+                {
+                    await HandleResponse(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Send async
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        protected void Send(string url, HttpMethod method)
+        {
+            SendAsync(url, method).Sync();
+        }
+
+        /// <summary>
+        /// Send async
+        /// </summary>
         /// <typeparam name="TRes"></typeparam>
         /// <param name="url"></param>
         /// <param name="method"></param>
@@ -573,18 +603,62 @@ namespace RestLesser
         }
 
         /// <summary>
+        /// Put a value
+        /// </summary>
+        /// <typeparam name="TReq"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task PutAsync<TReq>(string url, TReq value)
+        {
+            await SendAsync(url, HttpMethod.Put, value);
+        }
+
+        /// <summary>
+        /// Put a value sync
+        /// </summary>
+        /// <typeparam name="TReq"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void Put<TReq>(string url, TReq value)
+        {
+            PutAsync(url, value).Sync();
+        }
+
+        /// <summary>
+        /// Put a value
+        /// </summary>
+        /// <typeparam name="TReq"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<TResult> PutAsync<TReq, TResult>(string url, TReq value)
+        {
+            return await SendAsync<TReq, TResult>(url, HttpMethod.Put, value);
+        }
+
+        /// <summary>
+        /// Put a value sync
+        /// </summary>
+        /// <typeparam name="TReq"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public TResult Put<TReq, TResult>(string url, TReq value)
+        {
+            return PutAsync<TReq, TResult>(url, value).Sync();
+        }
+
+        /// <summary>
         /// Send a delete
         /// </summary>
         /// <param name="url">Url</param>
         public async Task DeleteAsync(string url)
         {
-            using (var message = new AuthenticationRequestMessage(HttpMethod.Delete, url, Authentication))
-            {
-                using (HttpResponseMessage result = await Client.SendAsync(message))
-                {
-                    await HandleResponse(result);
-                }
-            }
+            await SendAsync(url, HttpMethod.Delete);
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace RestLesser
         #region Expression
 
         /// <summary>
-        /// Get member name of expression <paramref name="p"/>
+        /// Get member name of <paramref name="expression"/>
         /// </summary>
         /// <typeparam name="TDelegate"></typeparam>
         /// <param name="expression"></param>
