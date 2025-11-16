@@ -67,13 +67,15 @@ namespace RestLesser
         /// <summary>
         /// Get sync result from async method
         /// </summary>
-        /// <param name="t"></param>
+        /// <param name="task"></param>
         /// <exception cref="TimeoutException"></exception>
-        public static void Sync(this Task t)
+        public static void Sync(this Task task)
         {
             try
             {
-                t.ConfigureAwait(false).GetAwaiter().GetResult();
+                task.ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
             }
             catch (TaskCanceledException ex)
             {
@@ -94,13 +96,15 @@ namespace RestLesser
         /// <summary>
         /// Get sync result from async method
         /// </summary>
-        /// <param name="t"></param>
+        /// <param name="task"></param>
         /// <exception cref="TimeoutException"></exception>
-        public static T Sync<T>(this Task<T> t)
+        public static T Sync<T>(this Task<T> task)
         {
             try
             {
-                return t.ConfigureAwait(false).GetAwaiter().GetResult();
+                return task.ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
             }
             catch (TaskCanceledException ex)
             {
