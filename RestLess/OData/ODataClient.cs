@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using RestLess.DataAdapters;
-using RestLesser;
 using RestLesser.Authentication;
+using RestLesser.DataAdapters;
 
 namespace RestLesser.OData
 {

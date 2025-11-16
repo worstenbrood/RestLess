@@ -1,5 +1,4 @@
-﻿using RestLess.OData.Models;
-using RestLesser.OData.Models;
+﻿using RestLesser.OData.Models;
 
 namespace RestLesser.DataAdapters
 {

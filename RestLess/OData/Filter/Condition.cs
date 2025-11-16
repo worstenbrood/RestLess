@@ -1,19 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Text;
 using System.Linq;
 using System.Linq.Expressions;
-using RestLesser;
-using RestLesser.OData;
 using RestLesser.OData.Interfaces;
-
-<<<<<<< TODO: Unmerged change from project 'RestLesser (netstandard2.0)', Before:
-=======
-using RestLess;
-using RestLess.OData;
-using RestLess.OData.Filter;
-using RestLesser.OData.Filter;
->>>>>>> After
 
 namespace RestLesser.OData.Filter
 {
