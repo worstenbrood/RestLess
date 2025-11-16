@@ -71,9 +71,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint, clientCertificate, null);
             BaseParameters
-                .AddIfNotEmpty("client_id", clientId)
-                .AddIfNotEmpty("client_secret", clientSecret)
-                .AddIfNotEmpty("redirect_uri", redirectUri);
+                .AddNotEmpty("client_id", clientId)
+                .AddNotEmpty("client_secret", clientSecret)
+                .AddNotEmpty("redirect_uri", redirectUri);
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint, clientCertificate, authentication);
             BaseParameters
-                .AddIfNotEmpty("client_id", clientId)
-                .AddIfNotEmpty("client_secret", clientSecret)
-                .AddIfNotEmpty("redirect_uri", redirectUri);
+                .AddNotEmpty("client_id", clientId)
+                .AddNotEmpty("client_secret", clientSecret)
+                .AddNotEmpty("redirect_uri", redirectUri);
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint, authentication, null);
             BaseParameters
-                .AddIfNotEmpty("client_id", clientId)
-                .AddIfNotEmpty("client_secret", clientSecret)
-                .AddIfNotEmpty("redirect_uri", redirectUri);
+                .AddNotEmpty("client_id", clientId)
+                .AddNotEmpty("client_secret", clientSecret)
+                .AddNotEmpty("redirect_uri", redirectUri);
         }
 
         /// <summary>
@@ -129,9 +129,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint);
             BaseParameters
-                .AddIfNotEmpty("client_id", clientId)
-                .AddIfNotEmpty("client_secret", clientSecret)
-                .AddIfNotEmpty("redirect_uri", redirectUri);
+                .AddNotEmpty("client_id", clientId)
+                .AddNotEmpty("client_secret", clientSecret)
+                .AddNotEmpty("redirect_uri", redirectUri);
         }
 
         /// <summary>
