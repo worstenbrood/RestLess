@@ -53,6 +53,33 @@ public class ODataUrlBuilderTests
     }
 
     [Test]
+    public void ODataUrlBuilder_TopTest()
+    {
+        var query = new ODataUrlBuilder<Dummy>("/dummy")
+            .Top(5);
+
+        Assert.That(query.ToString(), Is.EqualTo("/dummy?$top=5"));
+    }
+
+    [Test]
+    public void ODataUrlBuilder_OrderByTest()
+    {
+        var query = new ODataUrlBuilder<Dummy>("/dummy")
+            .OrderBy(x => x.Id);
+
+        Assert.That(query.ToString(), Is.EqualTo("/dummy?$orderby=Id"));
+    }
+
+    [Test]
+    public void ODataUrlBuilder_OrderByDescendingTest()
+    {
+        var query = new ODataUrlBuilder<Dummy>("/dummy")
+            .OrderByDescending(x => x.Id);
+
+        Assert.That(query.ToString(), Is.EqualTo("/dummy?$orderby=Id+desc"));
+    }
+
+    [Test]
     public void ODataUrlBuilder_FilterTest_Eq()
     {
         var query = new ODataUrlBuilder<Dummy>("/dummy")
