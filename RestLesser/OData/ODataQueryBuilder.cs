@@ -91,15 +91,12 @@ namespace RestLesser.OData
         /// </summary>
         /// <typeparam name="TProperty">Main object type</typeparam>
         /// <typeparam name="TFilter">Filter type</typeparam>
-        /// <param name="field"></param>
         /// <param name="func"></param>
         /// <param name="filter"></param>
-        public ODataQueryBuilder<TClass> Filter<TProperty, TFilter>(
-            Expression<Func<TClass, TProperty>> field,
+        private ODataQueryBuilder<TClass> Filter<TProperty, TFilter>(
                 FunctionF<TClass, TProperty> func,
                 TFilter filter) 
             where TFilter : FunctionFactory<TClass, TProperty>
-
         {
             var condition = func(filter);
 
@@ -123,7 +120,7 @@ namespace RestLesser.OData
                 FunctionF<TClass, TProperty> func)
         {
             var filter = new FunctionFactory<TClass, TProperty>(field);
-            return Filter(field, func, filter);
+            return Filter(func, filter);
         }
 
         /// <summary>
