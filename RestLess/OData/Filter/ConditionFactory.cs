@@ -17,11 +17,6 @@ namespace RestLess.OData.Filter
         protected readonly Expression<Func<TClass, TProperty>> Property;
 
         /// <summary>
-        /// Filter instance
-        /// </summary>
-        protected readonly ConditionFactory<TClass, TProperty> Filter;
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="property"></param>
@@ -29,8 +24,6 @@ namespace RestLess.OData.Filter
         {
             Property = property;
 
-            // Limited filter functions
-            Filter = new ConditionFactory<TClass, TProperty>(property);
         }
 
         /// <summary>
@@ -140,7 +133,7 @@ namespace RestLess.OData.Filter
             var function = new Function<TClass, TProperty>(Property, Method.ToLower);
 
             // Limited filter functions
-            return new ConditionJoiner(function, condition(Filter));
+            return new ConditionJoiner(function, condition(this));
         }
 
         /// <summary>
@@ -154,7 +147,7 @@ namespace RestLess.OData.Filter
             var function = new Function<TClass, TProperty>(Property, Method.ToUpper);
 
             // Join both conditions
-            return new ConditionJoiner(function, condition(Filter));
+            return new ConditionJoiner(function, condition(this));
         }
 
         /// <summary>
@@ -170,7 +163,7 @@ namespace RestLess.OData.Filter
                 .SetParameters(len);
 
             // Join both conditions
-            return new ConditionJoiner(function, condition(Filter));
+            return new ConditionJoiner(function, condition(this));
         }
     }
 }
