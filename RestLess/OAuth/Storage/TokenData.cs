@@ -1,8 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
-using RestLess.OAuth.Models;
+using RestLesser.OAuth.Models;
 
-namespace RestLess.OAuth.Storage
+namespace RestLesser.OAuth.Storage
 {
     /// <summary>
     /// Used to save/load token on disk

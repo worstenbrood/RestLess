@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using RestLess.OData.Interfaces;
+using RestLesser.OData.Interfaces;
 
-namespace RestLess.OData.Filter
+namespace RestLesser.OData.Filter
 {
     /// <summary>
     /// Operation class

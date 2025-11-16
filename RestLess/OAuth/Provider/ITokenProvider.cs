@@ -1,6 +1,6 @@
-﻿using RestLess.OAuth.Models;
+﻿using RestLesser.OAuth.Models;
 
-namespace RestLess.OAuth.Provider
+namespace RestLesser.OAuth.Provider
 {
     /// <summary>
     /// Interface fro token providers

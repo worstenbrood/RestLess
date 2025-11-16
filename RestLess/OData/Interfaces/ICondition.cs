@@ -1,4 +1,4 @@
-﻿namespace RestLess.OData.Interfaces
+﻿namespace RestLesser.OData.Interfaces
 {
     /// <summary>
     /// Interface for a Condition provider

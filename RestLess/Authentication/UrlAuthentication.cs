@@ -1,6 +1,7 @@
-﻿using System.Net.Http;
+﻿using RestLesser;
+using System.Net.Http;
 
-namespace RestLess.Authentication
+namespace RestLesser.Authentication
 {
     /// <summary>
     /// Authenticate with a custom url query parameter and value

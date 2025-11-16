@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RestLess.OData.Models
+namespace RestLesser.OData.Models
 {
     /// <summary>
     /// OData object metadata

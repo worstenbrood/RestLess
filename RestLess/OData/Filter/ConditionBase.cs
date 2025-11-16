@@ -1,6 +1,6 @@
-﻿using RestLess.OData.Interfaces;
+﻿using RestLesser.OData.Interfaces;
 
-namespace RestLess.OData.Filter
+namespace RestLesser.OData.Filter
 {
     /// <summary>
     /// Condition base class

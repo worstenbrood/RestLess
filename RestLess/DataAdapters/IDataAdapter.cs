@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace RestLess.DataAdapters
+namespace RestLesser.DataAdapters
 {
     /// <summary>
     /// Data adapter interface

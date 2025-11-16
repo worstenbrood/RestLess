@@ -6,21 +6,22 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<RootNamespace>RestLesser</RootNamespace>
   </PropertyGroup>
 
 	<!--Package properties-->
 	<PropertyGroup>
-		<Title>RestLess</Title>
-		<PackageId>RestLess</PackageId>
+		<Title>RestLesser</Title>
+		<PackageId>RestLesser</PackageId>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<VersionPrefix>1.0.0</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
-		<AssemblyTitle>RestLess</AssemblyTitle>
+		<AssemblyTitle>RestLesser</AssemblyTitle>
 		<LangVersion>8.0</LangVersion>
 
 		<Authors>worstenbrood</Authors>
 		<Copyright>worstenbrood@gmail.com © 2025</Copyright>
-		<Description>RestLess is a simple rest/odata client.</Description>
+		<Description>RestLesser is a simple rest/odata client.</Description>
 
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>

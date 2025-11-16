@@ -1,9 +1,10 @@
 ﻿using System.Net.Http;
-using RestLess.Authentication;
-using RestLess.OAuth.Models;
-using RestLess.OAuth.Provider;
+using RestLesser;
+using RestLesser.Authentication;
+using RestLesser.OAuth.Models;
+using RestLesser.OAuth.Provider;
 
-namespace RestLess.OAuth.Authentication
+namespace RestLesser.OAuth.Authentication
 {
     /// <summary>
     /// IAuthentication implementation of an ITokenProvider for use with RestClient

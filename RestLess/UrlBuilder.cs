@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RestLess
+namespace RestLesser
 {
     /// <summary>
     /// Url builder base

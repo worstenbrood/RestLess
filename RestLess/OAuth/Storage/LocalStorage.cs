@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Text;
-using RestLess.DataAdapters;
+using RestLesser.DataAdapters;
 
-namespace RestLess.OAuth.Storage
+namespace RestLesser.OAuth.Storage
 {
     /// <summary>
     /// Token storage provider that loads and saves to local disk

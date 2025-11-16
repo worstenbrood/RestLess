@@ -9,7 +9,13 @@ using System.Net.Http.Headers;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 
-namespace RestLess
+<<<<<<< TODO: Unmerged change from project 'RestLesser (netstandard2.0)', Before:
+=======
+using RestLess;
+using RestLesser;
+>>>>>>> After
+
+namespace RestLesser
 {
     /// <summary>
     /// Class containing extension methods

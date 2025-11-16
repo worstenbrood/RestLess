@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestLess.OData
+namespace RestLesser.OData
 {
     /// <summary>
     /// Conversion methods

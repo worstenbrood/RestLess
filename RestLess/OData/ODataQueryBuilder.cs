@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Linq.Expressions;
-using RestLess.OData.Filter;
-using RestLess.OData.Interfaces;
+using RestLesser.OData.Filter;
+using RestLesser.OData.Interfaces;
 
-namespace RestLess.OData
+namespace RestLesser.OData
 {
     /// <summary>
     /// Select delegate

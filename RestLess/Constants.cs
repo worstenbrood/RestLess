@@ -1,4 +1,4 @@
-﻿namespace RestLess
+﻿namespace RestLesser
 {
     /// <summary>
     /// Constants

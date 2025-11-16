@@ -1,10 +1,11 @@
 ﻿using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using RestLess.Authentication;
-using RestLess.OAuth.Models;
+using RestLesser;
+using RestLesser.Authentication;
+using RestLesser.OAuth.Models;
 
-namespace RestLess.OAuth
+namespace RestLesser.OAuth
 {
     /// <summary>
     /// OAuth rest client

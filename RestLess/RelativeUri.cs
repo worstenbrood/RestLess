@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestLess
+namespace RestLesser
 {
     /// <summary>
     /// Class to work with relative urls

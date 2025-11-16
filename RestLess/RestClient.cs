@@ -5,11 +5,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
-using RestLess.Authentication;
-using RestLess.DataAdapters;
 using System.Threading.Tasks;
+using RestLesser.Authentication;
+using RestLesser.DataAdapters;
 
-namespace RestLess
+namespace RestLesser
 {
     /// <summary>
     /// Rest client

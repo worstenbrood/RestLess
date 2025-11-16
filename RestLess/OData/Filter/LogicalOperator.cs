@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestLess.OData.Filter
+namespace RestLesser.OData.Filter
 {
     /// <summary>
     /// Logical operator base class

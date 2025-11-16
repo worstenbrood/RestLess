@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using RestLess.Authentication;
 using RestLess.DataAdapters;
+using RestLesser;
+using RestLesser.Authentication;
 
-namespace RestLess.OData
+namespace RestLesser.OData
 {
     /// <summary>
     /// OData rest client

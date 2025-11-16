@@ -1,6 +1,7 @@
-﻿using System.Net.Http;
+﻿using RestLesser;
+using System.Net.Http;
 
-namespace RestLess.Authentication
+namespace RestLesser.Authentication
 {
     /// <summary>
     /// Authentication using a Bearer token

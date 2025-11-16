@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace RestLess.Authentication
+namespace RestLesser.Authentication
 {
     /// <summary>
     /// Authenticate using basic authentication

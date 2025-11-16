@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
-using RestLess.OAuth.Storage;
-using RestLess.OAuth.Models;
-using RestLess.Authentication;
+using RestLesser.OAuth.Storage;
+using RestLesser.OAuth;
+using RestLesser.Authentication;
+using RestLesser.OAuth.Models;
 
-namespace RestLess.OAuth.Provider
+namespace RestLesser.OAuth.Provider
 {
     /// <summary>
     /// TokenProvider for Authorization/Refresh flow

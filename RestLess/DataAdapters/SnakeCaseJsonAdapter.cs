@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace RestLess.DataAdapters
+namespace RestLesser.DataAdapters
 {
     /// <summary>
     /// SnakeCase Json data adapter

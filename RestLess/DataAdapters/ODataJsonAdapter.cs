@@ -1,6 +1,7 @@
 ﻿using RestLess.OData.Models;
+using RestLesser.OData.Models;
 
-namespace RestLess.DataAdapters
+namespace RestLesser.DataAdapters
 {
     /// <summary>
     /// OData data adapter

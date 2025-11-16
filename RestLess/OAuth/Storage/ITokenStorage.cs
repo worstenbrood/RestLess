@@ -1,4 +1,4 @@
-﻿namespace RestLess.OAuth.Storage
+﻿namespace RestLesser.OAuth.Storage
 {
     /// <summary>
     /// Interface for token storage providers

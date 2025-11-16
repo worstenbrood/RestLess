@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using RestLess.OData.Interfaces;
+using RestLesser.OData.Interfaces;
 
-namespace RestLess.OData.Filter
+namespace RestLesser.OData.Filter
 {
     /// <summary>
     /// Condition factory

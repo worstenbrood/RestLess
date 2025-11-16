@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
-namespace RestLess.DataAdapters
+namespace RestLesser.DataAdapters
 {
     /// <summary>
     /// DataAdapter using NewtonSoft.Json

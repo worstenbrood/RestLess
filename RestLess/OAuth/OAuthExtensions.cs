@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RestLess.OAuth
+namespace RestLesser.OAuth
 {
     /// <summary>
     /// OAuth extensions

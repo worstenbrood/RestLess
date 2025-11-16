@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RestLess.OAuth.Models
+namespace RestLesser.OAuth.Models
 {
     /// <summary>
     /// OAuth token response

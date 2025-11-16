@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Collections.Generic;
 
-namespace RestLess
+namespace RestLesser
 {
     /// <summary>
     /// Url query builder

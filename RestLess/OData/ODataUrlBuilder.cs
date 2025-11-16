@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace RestLess.OData
+namespace RestLesser.OData
 {
     /// <summary>
     /// UrlBuilder with specific logic for odata
