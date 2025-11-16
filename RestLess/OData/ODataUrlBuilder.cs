@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace RestLess.OData
 {
@@ -138,9 +139,27 @@ namespace RestLess.OData
         /// Get entries from the api using this <see cref="ODataUrlBuilder{TClass}"/>
         /// </summary>
         /// <returns>An array of <typeparamref name="TClass"/></returns>
+        public async Task<TClass[]> GetEntriesAsync()
+        {
+            return await _client.GetEntriesAsync(this);
+        }
+
+        /// <summary>
+        /// Get entries from the api using this <see cref="ODataUrlBuilder{TClass}"/>
+        /// </summary>
+        /// <returns>An array of <typeparamref name="TClass"/></returns>
         public TClass[] GetEntries()
         {
             return _client.GetEntries(this);
+        }
+
+        /// <summary>
+        /// Get a single entry from the api using this <see cref="ODataUrlBuilder{TClass}"/>
+        /// </summary>
+        /// <returns>A single <typeparamref name="TClass"/></returns>
+        public Task<TClass> GetEntryAsync()
+        {
+            return _client.GetEntryAsync(this);
         }
 
         /// <summary>
@@ -151,6 +170,21 @@ namespace RestLess.OData
         {
             return _client.GetEntry(this);
         }     
+
+        /// <summary>
+        /// Post the entries set by the <see cref="Set(TClass)"/> and <see cref="Set(TClass[])"/> methods.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        public async Task<ODataUrlBuilder<TClass>> PostEntriesAsync()
+        {
+            if (_entries == null || _entries.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(_entries), "Use Set() first.");
+            }
+
+            await _client.PostEntriesAsync(this, _entries);
+            return this;
+        }
 
         /// <summary>
         /// Post the entries set by the <see cref="Set(TClass)"/> and <see cref="Set(TClass[])"/> methods.
@@ -171,9 +205,28 @@ namespace RestLess.OData
         /// Post a single entry, no need to call Set() before
         /// </summary>
         /// <param name="entry"></param>
+        public async Task<ODataUrlBuilder<TClass>> PostEntryAsync(TClass entry)
+        {
+            await _client.PostEntryAsync(this, entry);
+            return this;
+        }
+
+        /// <summary>
+        /// Post a single entry, no need to call Set() before
+        /// </summary>
+        /// <param name="entry"></param>
         public ODataUrlBuilder<TClass> PostEntry(TClass entry)
         {
             _client.PostEntry(this, entry);
+            return this;
+        }
+
+        /// <summary>
+        /// Delete entries specified by this <see cref="ODataUrlBuilder{TClass}"/>
+        /// </summary>
+        public async Task<ODataUrlBuilder<TClass>> DeleteEntriesAsync()
+        {
+            await _client.DeleteEntriesAsync(this);
             return this;
         }
 
