@@ -32,6 +32,7 @@ namespace RestLesser.OAuth.Storage
         /// <summary>
         /// Returns true if the token is expired
         /// </summary>
+        [JsonIgnore]
         public bool IsExpired => ExpireDateTime.AddSeconds(30) > DateTime.UtcNow;
 
         /// <summary>
