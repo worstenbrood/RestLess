@@ -1,4 +1,4 @@
-[![.NET](https://github.com/worstenbrood/RestLesser/actions/workflows/dotnet.yml/badge.svg)](https://github.com/worstenbrood/RestLesser/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/worstenbrood/RestLesser/actions/workflows/dotnet.yml/badge.svg)](https://github.com/worstenbrood/RestLesser/actions/workflows/dotnet.yml) [![.github/workflows/nuget.yaml](https://github.com/worstenbrood/RestLesser/actions/workflows/nuget.yaml/badge.svg)](https://github.com/worstenbrood/RestLesser/actions/workflows/nuget.yaml)
  
  # RestLesser
 
