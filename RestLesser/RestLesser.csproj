@@ -26,7 +26,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/worstenbrood/RestLess.git</RepositoryUrl>
+		<RepositoryUrl>https://github.com/worstenbrood/RestLesser.git</RepositoryUrl>
 		<NeutralLanguage>en</NeutralLanguage>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
