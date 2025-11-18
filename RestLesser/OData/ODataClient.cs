@@ -1,12 +1,17 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json.Linq;
 using RestLesser.Authentication;
 using RestLesser.DataAdapters;
+using RestLesser.OData.Attributes;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace RestLesser.OData
 {
     /// <summary>
-    /// OData rest client
+    /// OData rest client (V1-V3)
     /// </summary>
     /// <remarks>
     /// Constructor
@@ -123,6 +128,45 @@ namespace RestLesser.OData
         public void DeleteEntries<TClass>(ODataUrlBuilder<TClass> builder)
         {
             Delete(builder.ToString());
+        }
+
+        /// <summary>
+        /// Build url for PUT
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="entry"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        private static string BuildPutUrl<TClass, TProperty>(ODataUrlBuilder<TClass> builder, TClass entry, Expression<Func<TClass, TProperty>> field)
+        {
+            var primaryKeys = PrimaryKey<TClass>.GetValue(entry);
+            return $"{builder}/{primaryKeys}/{field.GetMemberName()}/$value";
+        }
+
+        /// <summary>
+        /// Put individual property
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <returns></returns>
+        public async Task PutValueAsync<TClass, TProperty>(ODataUrlBuilder<TClass> builder, TClass entry, Expression<Func<TClass, TProperty>> field, TProperty value)
+        {
+            var url = BuildPutUrl(builder, entry, field);
+            await PutAsync(url, value);
+        }
+
+        /// <summary>
+        /// Put individual property
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <returns></returns>
+        public void PutValue<TClass, TProperty>(ODataUrlBuilder<TClass> builder, TClass entry, Expression<Func<TClass, TProperty>> field, TProperty value)
+        {
+            var url = BuildPutUrl(builder, entry, field);
+            Put(url, value);
         }
 
         /// <summary>

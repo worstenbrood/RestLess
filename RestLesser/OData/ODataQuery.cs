@@ -153,10 +153,21 @@ namespace RestLesser.OData
         public async Task<ODataQuery<TClass>> PutValueAsync<TProperty>(Expression<Func<TClass, TProperty>> field, TProperty value)
         {
             ValidateEntries();
-            var entry = _entries[0];
-            var primaryKeys = PrimaryKey<TClass>.GetValue(entry);
-            var path = $"/{primaryKeys}/{field.GetMemberName()}/$value";
-            await client.PutAsync(Uri + path, value);
+            await client.PutValueAsync(this, _entries[0], field, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Put individual property
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public ODataQuery<TClass> PutValue<TProperty>(Expression<Func<TClass, TProperty>> field, TProperty value)
+        {
+            ValidateEntries();
+            client.PutValue(this, _entries[0], field, value);
             return this;
         }
     }
