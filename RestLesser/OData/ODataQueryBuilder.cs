@@ -52,6 +52,7 @@ namespace RestLesser.OData
     public class ODataQueryBuilder<TClass>(string query) : QueryBuilder(query)
     {
         private readonly Operation _operation = [];
+        private readonly Collector<string> _order = [];
 
         /// <summary>
         /// Set multiple expressions
@@ -180,7 +181,10 @@ namespace RestLesser.OData
         /// <returns></returns>
         public ODataQueryBuilder<TClass> OrderBy(params Expression<Select<TClass>>[] fields)
         {
-            SetExpressions(Constants.Query.OrderBy, fields);
+            _order.Add(fields.JoinMembers());
+            
+            // Update orderby
+            SetQueryParameter(Constants.Query.OrderBy, _order.ToString());
             return this;
         }
 
@@ -191,8 +195,11 @@ namespace RestLesser.OData
         /// <returns></returns>
         public ODataQueryBuilder<TClass> OrderByDescending(params Expression<Select<TClass>>[] fields)
         {
-            var parameter = string.Join(Constants.Query.ParameterSeparator, fields.Select(x => $"{x.GetMemberName()} desc"));
-            SetQueryParameter(Constants.Query.OrderBy, parameter);
+            _order.AddRange(fields.Select(x => $"{x.GetMemberName()} desc"));
+
+            // Update orderby
+            SetQueryParameter(Constants.Query.OrderBy, _order.ToString());
+
             return this;
         }
 

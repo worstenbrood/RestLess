@@ -80,6 +80,16 @@ public class ODataUrlBuilderTests
     }
 
     [Test]
+    public void ODataUrlBuilder_OrderByAscendingAndDescendingTest()
+    {
+        var query = new ODataUrlBuilder<Dummy>("/dummy")
+            .OrderBy(x => x.Name)
+            .OrderByDescending(x => x.Id);
+
+        Assert.That(query.ToString(), Is.EqualTo("/dummy?$orderby=Name%2cId+desc"));
+    }
+
+    [Test]
     public void ODataUrlBuilder_FilterTest_Eq()
     {
         var query = new ODataUrlBuilder<Dummy>("/dummy")

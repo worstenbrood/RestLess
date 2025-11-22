@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using RestLesser.OData.Interfaces;
 
 namespace RestLesser.OData.Filter
@@ -8,22 +6,22 @@ namespace RestLesser.OData.Filter
     /// <summary>
     /// Operation class
     /// </summary>
-    public class Operation : IEnumerable<string>
-    {     
-        private readonly List<string> _conditions = [];
-
+    public class Operation : Collector<string>
+    {   
         /// <summary>
-        /// Return condition count
+        /// Constructor
         /// </summary>
-        public int Count => _conditions.Count;
+        public Operation() : base(Constants.Query.ConditionSeparator)
+        { 
+        }
 
-        /// <summary>
+         /// <summary>
         /// Add a condition
         /// </summary>
         /// <param name="condition"></param>
         public void Add(ICondition condition)
         {
-            _conditions.Add(condition.ToString());
+            Add(condition.ToString());
         }
 
         /// <summary>
@@ -32,33 +30,12 @@ namespace RestLesser.OData.Filter
         /// <param name="conditions"></param>
         public void Add(params ICondition[] conditions)
         {
-            _conditions.AddRange(conditions.Select(c => c.ToString()));
+            AddRange(conditions.Select(c => c.ToString()));
         }
 
         /// <summary>
         /// Reset conditions
         /// </summary>
-        public void Reset() => _conditions.Clear();
-
-        /// <summary>
-        /// Return condition string
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            // Join conditions
-            return string.Join(Constants.Query.ConditionSeparator, _conditions);
-        }
-
-        /// <inheritdoc/>
-        public IEnumerator<string> GetEnumerator()
-        {
-            return _conditions.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _conditions.GetEnumerator();
-        }
+        public void Reset() => Clear();
     }
 }
