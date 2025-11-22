@@ -24,6 +24,15 @@ namespace RestLesser.OData
         }
 
         /// <summary>
+        /// Select all properties
+        /// </summary>
+        public ODataUrlBuilder<TClass> SelectAll()
+        {
+            QueryBuilder.SelectAll();
+            return this;
+        }
+
+        /// <summary>
         /// Add $expand
         /// </summary>
         public ODataUrlBuilder<TClass> Expand(params Expression<Expand<TClass>>[] expands)

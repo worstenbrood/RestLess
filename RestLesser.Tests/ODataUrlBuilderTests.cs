@@ -26,6 +26,15 @@ public class ODataUrlBuilderTests
     }
 
     [Test]
+    public void ODataUrlBuilder_SelectAllTest()
+    {
+        var query = new ODataUrlBuilder<Dummy>("/dummy")
+            .SelectAll();
+
+        Assert.That(query.ToString(), Is.EqualTo("/dummy?$select=*"));
+    }
+
+    [Test]
     public void ODataUrlBuilder_SelectTest_Multi()
     {
         var query = new ODataUrlBuilder<Dummy>("/dummy")

@@ -81,6 +81,15 @@ namespace RestLesser.OData
         }
 
         /// <summary>
+        /// Select all properties
+        /// </summary>
+        public ODataQueryBuilder<TClass> SelectAll()
+        {
+            SetQueryParameter(Constants.Query.Select, "*");
+            return this;
+        }
+
+        /// <summary>
         /// Add $select
         /// </summary>
         /// <param name="expands"></param>
