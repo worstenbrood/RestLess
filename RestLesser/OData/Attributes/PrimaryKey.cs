@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using RestLesser.OData.Filter;
 
 namespace RestLesser.OData.Attributes
 {
@@ -44,7 +45,8 @@ namespace RestLesser.OData.Attributes
         public static string GetValue(TClass o)
         {
             var keys = Keys.Select(k => $"{k.Name}={k.GetValue(o).ToODataValue()}");
-            return $"({string.Join(Constants.Query.ParameterSeparator, keys)})";
+            var collector = new Collector<string>(keys);
+            return $"({collector})";
         }
     }
 }

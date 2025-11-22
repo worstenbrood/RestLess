@@ -28,6 +28,35 @@ namespace RestLesser.OData.Filter
         }
 
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="separator"></param>
+        /// <param name="args"></param>
+        public Collector(string separator, params T[] args) : this(separator)
+        {
+            AddRange(args);
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="args"></param>
+        public Collector(IEnumerable<T> args) : this()
+        {
+            AddRange(args);
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="separator"></param>
+        /// <param name="args"></param>
+        public Collector(string separator, IEnumerable<T> args) : this(separator)
+        {
+            AddRange(args);
+        }
+
+        /// <summary>
         /// Return joined string
         /// </summary>
         /// <returns></returns>
