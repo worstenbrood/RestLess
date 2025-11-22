@@ -7,8 +7,8 @@ public class ODataUrlBuilderTests
     private class Dummy
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int[] Data { get; set; }
+        public string? Name { get; set; }
+        public int[]? Data { get; set; }
     }
 
     [SetUp]
