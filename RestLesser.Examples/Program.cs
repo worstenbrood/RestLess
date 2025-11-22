@@ -7,8 +7,11 @@ namespace RestLesser.Examples
         public static void Main(params string[] args)
         {
             var tvMaze = new TvMazeClient();
-            var show = tvMaze.GetShow(1);
-            Console.WriteLine($"Name: {show.Name}");
+            var results = tvMaze.SearchShow("Pluribus");
+            foreach (var result in results)
+            {
+                Console.WriteLine($"Name: {result.Show?.Name}");
+            }
         }
     }
 }
