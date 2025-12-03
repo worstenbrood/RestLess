@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<Title>RestLesser</Title>
 		<PackageId>RestLesser</PackageId>
-		<AssemblyVersion>1.3.0.0</AssemblyVersion>
-		<VersionPrefix>1.3.0</VersionPrefix>
+		<AssemblyVersion>1.4.0.0</AssemblyVersion>
+		<VersionPrefix>1.4.0</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
 		<AssemblyTitle>RestLesser</AssemblyTitle>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
