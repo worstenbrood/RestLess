@@ -71,9 +71,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint, clientCertificate, null);
             BaseParameters
-                .AddNotEmpty("client_id", clientId)
-                .AddNotEmpty("client_secret", clientSecret)
-                .AddNotEmpty("redirect_uri", redirectUri);
+                .TryAddValue("client_id", clientId)
+                .TryAddValue("client_secret", clientSecret)
+                .TryAddValue("redirect_uri", redirectUri);
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint, clientCertificate, authentication);
             BaseParameters
-                .AddNotEmpty("client_id", clientId)
-                .AddNotEmpty("client_secret", clientSecret)
-                .AddNotEmpty("redirect_uri", redirectUri);
+                .TryAddValue("client_id", clientId)
+                .TryAddValue("client_secret", clientSecret)
+                .TryAddValue("redirect_uri", redirectUri);
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint, authentication, null);
             BaseParameters
-                .AddNotEmpty("client_id", clientId)
-                .AddNotEmpty("client_secret", clientSecret)
-                .AddNotEmpty("redirect_uri", redirectUri);
+                .TryAddValue("client_id", clientId)
+                .TryAddValue("client_secret", clientSecret)
+                .TryAddValue("redirect_uri", redirectUri);
         }
 
         /// <summary>
@@ -129,9 +129,9 @@ namespace RestLesser.OAuth.Provider
         {
             RestClient = new OAuthClient(endPoint);
             BaseParameters
-                .AddNotEmpty("client_id", clientId)
-                .AddNotEmpty("client_secret", clientSecret)
-                .AddNotEmpty("redirect_uri", redirectUri);
+                .TryAddValue("client_id", clientId)
+                .TryAddValue("client_secret", clientSecret)
+                .TryAddValue("redirect_uri", redirectUri);
         }
 
         /// <summary>

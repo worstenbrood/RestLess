@@ -14,7 +14,7 @@ namespace RestLesser.OAuth
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> AddNotEmpty(this Dictionary<string, string> dictionary, string key, string value)
+        public static Dictionary<string, string> TryAddValue(this Dictionary<string, string> dictionary, string key, string value)
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
