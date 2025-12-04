@@ -114,7 +114,16 @@ namespace RestLesser
 
             return body;
         }
-        
+
+        /// <summary>
+        /// Create an authenticated http request message
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        protected AuthenticationRequestMessage CreateRequest(string url, HttpMethod method) =>
+            new (method, url, Authentication);
+
         /// <summary>
         /// Send async
         /// </summary>
@@ -123,7 +132,7 @@ namespace RestLesser
         /// <returns></returns>
         protected async Task SendAsync(string url, HttpMethod method)
         {
-            using var message = new AuthenticationRequestMessage(method, url, Authentication);
+            using var message = CreateRequest(url, method);
             message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
 
             using var result = await Client.SendAsync(message);
@@ -150,7 +159,7 @@ namespace RestLesser
         /// <returns></returns>
         protected async Task<TRes> SendAsync<TRes>(string url, HttpMethod method)
         {
-            using var message = new AuthenticationRequestMessage(method, url, Authentication);
+            using var message = CreateRequest(url, method);
             message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
 
             using var result = await Client.SendAsync(message);
@@ -179,7 +188,7 @@ namespace RestLesser
         /// <returns></returns>
         protected async Task SendAsync<TReq>(string url, HttpMethod method, TReq data)
         {
-            using var message = new AuthenticationRequestMessage(method, url, Authentication);
+            using var message = CreateRequest(url, method);
             using var content = new RestContent<TReq>(data, DataAdapter);
             message.Content = content;
 
@@ -210,7 +219,7 @@ namespace RestLesser
         /// <returns></returns>
         protected async Task<TRes> SendAsync<TReq, TRes>(string url, HttpMethod method, TReq data)
         {
-            using var message = new AuthenticationRequestMessage(method, url, Authentication);
+            using var message = CreateRequest(url, method);
             message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
 
             using var content = new RestContent<TReq>(data, DataAdapter);
@@ -316,7 +325,7 @@ namespace RestLesser
         /// <returns></returns>
         public async Task<TRes> PostAsync<TRes>(string url, IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            using var message = new AuthenticationRequestMessage(HttpMethod.Post, url, Authentication);
+            using var message = CreateRequest(url, HttpMethod.Post);
             message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
 
             using var content = new FormUrlEncodedContent(parameters);
@@ -346,7 +355,7 @@ namespace RestLesser
         /// <returns></returns>
         public async Task PostFileAsync(string url, Stream input)
         {
-            using var message = new AuthenticationRequestMessage(HttpMethod.Post, url, Authentication);
+            using var message = CreateRequest(url, HttpMethod.Post);
             using var multipart = new MultipartFormDataContent();
             using var content = new StreamContent(input);
             multipart.Add(content);
@@ -400,7 +409,7 @@ namespace RestLesser
         /// <exception cref="HttpRequestException"></exception>
         public async Task<TRes> PostFileAsync<TRes>(string url, Stream input)
         {
-            using var message = new AuthenticationRequestMessage(HttpMethod.Post, url, Authentication);
+            using var message = CreateRequest(url, HttpMethod.Post);
             message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
 
             using var multipart = new MultipartFormDataContent();
@@ -445,7 +454,7 @@ namespace RestLesser
         /// <param name="mediaType"></param>
         public async Task<HttpResponseMessage> GetFileAsync(string url, string mediaType)
         {
-            using var message = new AuthenticationRequestMessage(HttpMethod.Get, url, Authentication);
+            using var message = CreateRequest(url, HttpMethod.Get);
             if (mediaType != null)
             {
                 message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
