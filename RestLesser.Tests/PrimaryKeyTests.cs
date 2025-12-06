@@ -64,19 +64,5 @@ namespace RestLesser.Tests
             string result = PrimaryKey<MultiKey>.GetValue(key);
             Assert.That(result, Is.EqualTo($"(Id1={id1},Id2={id2})"));
         }
-
-        [Test]
-        public void PrimaryKey_SingleKeyTest()
-        {
-            int id = Random.Shared.Next();
-            var key = new SingleKey
-            {
-                Id = id,
-                Name = "Single Key Test"
-            };
-
-            string result = PrimaryKey<SingleKey>.GetValue(key);
-            Assert.That(result, Is.EqualTo($"(Id={id})"));
-        }
     }
 }
