@@ -24,7 +24,7 @@ namespace RestLesser.Tests
     public class StringKey
     {
         [PrimaryKey]
-        public string Id { get; set; }
+        public string? Id { get; set; }
     }
 
     public class PrimaryKeyTests
@@ -63,6 +63,18 @@ namespace RestLesser.Tests
 
             string result = PrimaryKey<MultiKey>.GetValue(key);
             Assert.That(result, Is.EqualTo($"(Id1={id1},Id2={id2})"));
+        }
+
+        [Test]
+        public void PrimaryKey_StringKeyTest()
+        {
+            var key = new StringKey
+            {
+                Id = "String Key Test"
+            };
+
+            string result = PrimaryKey<StringKey>.GetValue(key);
+            Assert.That(result, Is.EqualTo($"(Id='{key.Id}')"));
         }
     }
 }
