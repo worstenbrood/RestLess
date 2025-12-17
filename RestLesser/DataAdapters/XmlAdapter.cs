@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -14,18 +13,17 @@ namespace RestLesser.DataAdapters
         public MediaTypeWithQualityHeaderValue MediaTypeHeader { get; } =
             new MediaTypeWithQualityHeaderValue("application/xml");
 
+        /// <inheritdoc/>
+        public T Deserialize<T>(string data)
+        {
+            return Xml<T>.Deserialize(data);
+        }
+
         /// <summary>
         /// Namespaces used for writing
         /// </summary>
         public readonly XmlSerializerNamespaces Namespaces =
             new([new XmlQualifiedName(string.Empty, string.Empty)]);
-
-        /// <inheritdoc/>
-        public T Deserialize<T>(string data)
-        {
-            using var reader = new StringReader(data);
-            return (T)Xml<T>.Serializer.Deserialize(reader);
-        }
 
         /// <summary>
         /// XML writer settings
@@ -38,14 +36,10 @@ namespace RestLesser.DataAdapters
                 IndentChars = new string(' ', 2)
             };
 
-
         /// <inheritdoc/>
         public string Serialize<T>(T data)
         {
-            using var stream = new StringWriter();
-            using var writer = XmlWriter.Create(stream, XmlWriterSettings);
-            Xml<T>.Serializer.Serialize(writer, data, Namespaces);
-            return stream.ToString();
+            return Xml<T>.Serialize(data, XmlWriterSettings, Namespaces);
         }
     }
 }
