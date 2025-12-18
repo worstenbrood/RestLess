@@ -155,7 +155,7 @@ namespace RestLesser
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private IDataAdapter GetAdapter<T>() =>
+        protected IDataAdapter GetAdapter<T>() =>
             AdapterFactory<T>.Get(DataAdapter);
 
         /// <summary>
@@ -196,9 +196,9 @@ namespace RestLesser
         /// <returns></returns>
         protected async Task SendAsync<TReq>(string url, HttpMethod method, TReq data)
         {
-            using var message = CreateRequest(url, method);
             var adapter = GetAdapter<TReq>();
             using var content = new RestContent<TReq>(data, adapter);
+            using var message = CreateRequest(url, method);
             message.Content = content;
 
             using HttpResponseMessage result = await Client.SendAsync(message);
