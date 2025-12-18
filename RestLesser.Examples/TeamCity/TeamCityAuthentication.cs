@@ -25,14 +25,10 @@ namespace RestLesser.Examples.TeamCity
         private string GetToken()
         {
             const string path = "authenticationTest.html?csrf";
-            using (var request = new HttpRequestMessage(HttpMethod.Get, path))
-            {
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
-                using (HttpResponseMessage response = _client.SendAsync(request).Sync())
-                {
-                    return response.Content.ReadAsStringAsync().Sync();
-                }
-            }
+            using var request = new HttpRequestMessage(HttpMethod.Get, path);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+            using HttpResponseMessage response = _client.SendAsync(request).Sync();
+            return response.Content.ReadAsStringAsync().Sync();
         }
 
         public void SetAuthentication(HttpRequestMessage request)
