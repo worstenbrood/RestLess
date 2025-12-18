@@ -8,6 +8,6 @@ namespace RestLesser.Examples.TeamCity.Models
         public int Count { get; set; }
 
         [XmlElement(ElementName = "property")]
-        public Property[] Properties { get; set; }
+        public Property[]? Properties { get; set; }
     }
 }

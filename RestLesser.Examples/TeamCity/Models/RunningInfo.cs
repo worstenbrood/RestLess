@@ -14,6 +14,6 @@ namespace RestLesser.Examples.TeamCity.Models
         public int EstimatedTotalSeconds { get; set; }
 
         [XmlAttribute(AttributeName = "currentStageText")]
-        public string CurrentStageText { get; set; }
+        public string? CurrentStageText { get; set; }
     }
 }
