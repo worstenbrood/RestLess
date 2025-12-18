@@ -137,32 +137,6 @@ namespace RestLesser
             new (method, url, Authentication);
 
         /// <summary>
-        /// Send async
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        protected async Task SendAsync(string url, HttpMethod method)
-        {
-            using var message = CreateRequest(url, method);
-            message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
-
-            using var result = await Client.SendAsync(message);
-            await HandleResponse(result);
-        }
-
-        /// <summary>
-        /// Send async
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        protected void Send(string url, HttpMethod method)
-        {
-            SendAsync(url, method).Sync();
-        }
-
-        /// <summary>
         /// Get data adaptor for type
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -206,6 +180,32 @@ namespace RestLesser
             using var result = await Client.SendAsync(message);
             await HandleResponse(result);
         }
+
+        /// <summary>
+        /// Send async
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        protected async Task SendAsync(string url, HttpMethod method)
+        {
+            using var message = CreateRequest(url, method);
+            message.Headers.Accept.Add(DataAdapter.MediaTypeHeader);
+
+            using var result = await Client.SendAsync(message);
+            await HandleResponse(result);
+        }
+
+        /// <summary>
+        /// Send async
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        protected void Send(string url, HttpMethod method)
+        {
+            SendAsync(url, method).Sync();
+        }      
 
         /// <summary>
         /// Send async
