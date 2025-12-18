@@ -19,12 +19,12 @@ namespace RestLesser.DataAdapters
         public static readonly Type Type = typeof(T);
 
         /// <summary>
-        /// Return correcr adapter based on type
+        /// Return correct adapter based on type
         /// </summary>
         /// <param name="supplied"></param>
         /// <returns></returns>
         public static IDataAdapter Get(IDataAdapter supplied) =>
-            Type.IsPrimitive ?
+            Type.IsPrimitive || Type == typeof(string) ?
                 // Use the primitive adapter
                 PrimitiveAdapter :
                 // Use the supplied adapter
