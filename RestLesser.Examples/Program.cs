@@ -14,10 +14,7 @@ namespace RestLesser.Examples
 
             var tvMaze = new TvMazeClient();
             var results = tvMaze.SearchShow("Walking Dead");
-            foreach (var result in results)
-            {
-                Console.WriteLine(json.Serialize(result));
-            }
+            Console.WriteLine(json.Serialize(results));
         }
     }
 }
