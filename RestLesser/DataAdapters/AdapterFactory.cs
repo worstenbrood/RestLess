@@ -24,7 +24,7 @@ namespace RestLesser.DataAdapters
         /// <param name="supplied"></param>
         /// <returns></returns>
         public static IDataAdapter Get(IDataAdapter supplied) =>
-            Type.IsPrimitive ?
+            Type.IsPrimitive || Type == typeof(string) ?
                 // Use the primitive adapter
                 PrimitiveAdapter :
                 // Use the supplied adapter
