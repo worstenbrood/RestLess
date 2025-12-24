@@ -76,6 +76,6 @@ namespace RestLesser.OData4
         }
 
         /// <inheritdoc/>
-        public ODataUrlBuilder<T> Query<T>(string url) => new (url);
+        public ODataUrlBuilder<T> Query<T>(string url) => new (this, url);
     }
 }
