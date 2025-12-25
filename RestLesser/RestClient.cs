@@ -133,8 +133,8 @@ namespace RestLesser
         /// <param name="url"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        protected AuthenticationRequestMessage CreateRequest(string url, HttpMethod method) =>
-            new (method, url, Authentication);
+        protected AuthenticationRequestMessage CreateRequest(string url, 
+            HttpMethod method) => new (method, url, Authentication);
 
         /// <summary>
         /// Get data adaptor for type
@@ -170,7 +170,8 @@ namespace RestLesser
         /// <param name="message"></param>
         /// <param name="mediaType"></param>
         /// <returns></returns>
-        protected async Task<TRes> GetResult<TRes>(AuthenticationRequestMessage message, MediaTypeWithQualityHeaderValue mediaType = null)
+        protected async Task<TRes> GetResult<TRes>(AuthenticationRequestMessage message, 
+            MediaTypeWithQualityHeaderValue mediaType = null)
         {
             var adapter = GetAdapter<TRes>();
             message.Headers.Accept.Add(mediaType ?? adapter.MediaTypeHeader);

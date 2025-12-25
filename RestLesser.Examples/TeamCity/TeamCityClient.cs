@@ -21,7 +21,22 @@ namespace RestLesser.Examples.TeamCity
             Client.Timeout = TimeSpan.FromMinutes(5.0);
         }
 
+        /// <summary>
+        /// Token (Bearer) authentication
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="token"></param>
         public TeamCityClient(string url, string token) : this(url, new TeamCityAuthentication(url, token))
+        {
+        }
+
+        /// <summary>
+        /// Basic authentication
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        public TeamCityClient(string url, string username, string password) : this(url, new TeamCityAuthentication(url, username, password))
         {
         }
 
